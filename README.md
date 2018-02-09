@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-naniar
-======
+naniar <img src="man/figures/naniar-logo.png" align="right" />
+==============================================================
 
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/njtierney/naniar?branch=master&svg=true)](https://ci.appveyor.com/project/njtierney/naniar) [![Travis-CI Build Status](https://travis-ci.org/njtierney/naniar.svg?branch=master)](https://travis-ci.org/njtierney/naniar) [![Coverage Status](https://img.shields.io/codecov/c/github/njtierney/naniar/master.svg)](https://codecov.io/github/njtierney/naniar?branch=master)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/njtierney/naniar?branch=master&svg=true)](https://ci.appveyor.com/project/njtierney/naniar) [![Travis-CI Build Status](https://travis-ci.org/njtierney/naniar.svg?branch=master)](https://travis-ci.org/njtierney/naniar) [![Coverage Status](https://img.shields.io/codecov/c/github/njtierney/naniar/master.svg)](https://codecov.io/github/njtierney/naniar?branch=master)[![CRAN Status Badge](http://www.r-pkg.org/badges/version/naniar)](https://cran.r-project.org/package=naniar)[![CRAN Downloads Each Month](http://cranlogs.r-pkg.org/badges/naniar)](http://cran.rstudio.com/web/packages/naniar/index.html)
 
 naniar provides principled, tidy ways to summarise, visualise, and manipulate missing data with minimal deviations from the workflows in ggplot2 and tidy data. It does this by providing:
 
@@ -19,17 +19,23 @@ For a short primer on the data visualisation available in naniar, read the vigne
 Installation
 ============
 
-Currently naniar is only available on github
+You can install naniar from CRAN:
+
+``` r
+install.packages("naniar")
+```
+
+Or you can install the development version on github using `remotes`:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("njtierney/naniar")
+remotes::install_github("njtierney/naniar")
 ```
 
 A short overview of naniar
 ==========================
 
-Visualising missing data might sound a little strange - how do you visualise something that is not there? One approach to visualising missing data comes from ggobi and manet, where we replace "NA" values with values 10% lower than the minimum value in that variable. This is provided with the `geom_miss_point()` ggplot2 geom, which we can illustrate by exploring the relationship between Ozone and Solar radiation from the airquality dataset.
+Visualising missing data might sound a little strange - how do you visualise something that is not there? One approach to visualising missing data comes from [ggobi]() and [manet](), where we replace "NA" values with values 10% lower than the minimum value in that variable. This visualisation is provided with the `geom_miss_point()` ggplot2 geom - which we illustrate by exploring the relationship between Ozone and Solar radiation from the airquality dataset.
 
 ``` r
 
@@ -96,17 +102,17 @@ head(airquality)
 as_shadow(airquality)
 #> # A tibble: 153 x 6
 #>    Ozone_NA Solar.R_NA Wind_NA Temp_NA Month_NA Day_NA
-#>      <fctr>     <fctr>  <fctr>  <fctr>   <fctr> <fctr>
-#>  1      !NA        !NA     !NA     !NA      !NA    !NA
-#>  2      !NA        !NA     !NA     !NA      !NA    !NA
-#>  3      !NA        !NA     !NA     !NA      !NA    !NA
-#>  4      !NA        !NA     !NA     !NA      !NA    !NA
-#>  5       NA         NA     !NA     !NA      !NA    !NA
-#>  6      !NA         NA     !NA     !NA      !NA    !NA
-#>  7      !NA        !NA     !NA     !NA      !NA    !NA
-#>  8      !NA        !NA     !NA     !NA      !NA    !NA
-#>  9      !NA        !NA     !NA     !NA      !NA    !NA
-#> 10       NA        !NA     !NA     !NA      !NA    !NA
+#>    <fct>    <fct>      <fct>   <fct>   <fct>    <fct> 
+#>  1 !NA      !NA        !NA     !NA     !NA      !NA   
+#>  2 !NA      !NA        !NA     !NA     !NA      !NA   
+#>  3 !NA      !NA        !NA     !NA     !NA      !NA   
+#>  4 !NA      !NA        !NA     !NA     !NA      !NA   
+#>  5 NA       NA         !NA     !NA     !NA      !NA   
+#>  6 !NA      NA         !NA     !NA     !NA      !NA   
+#>  7 !NA      !NA        !NA     !NA     !NA      !NA   
+#>  8 !NA      !NA        !NA     !NA     !NA      !NA   
+#>  9 !NA      !NA        !NA     !NA     !NA      !NA   
+#> 10 NA       !NA        !NA     !NA     !NA      !NA   
 #> # ... with 143 more rows
 ```
 
@@ -118,7 +124,7 @@ airquality %>%
   bind_shadow() %>%
   ggplot(aes(x = Temp,
              fill = Ozone_NA)) + 
-  geom_density()
+  geom_density(alpha = 0.5)
 ```
 
 ![](man/figures/README-shadow-w-ggplot-1.png)
@@ -189,29 +195,29 @@ For example, we can look at the number and percent of missings in each case and 
 ``` r
 
 miss_var_summary(airquality)
-#> # A tibble: 6 x 3
-#>   variable n_missing   percent
-#>      <chr>     <int>     <dbl>
-#> 1    Ozone        37 24.183007
-#> 2  Solar.R         7  4.575163
-#> 3     Wind         0  0.000000
-#> 4     Temp         0  0.000000
-#> 5    Month         0  0.000000
-#> 6      Day         0  0.000000
+#> # A tibble: 6 x 4
+#>   variable n_miss pct_miss n_miss_cumsum
+#>   <chr>     <int>    <dbl>         <int>
+#> 1 Ozone        37    24.2             37
+#> 2 Solar.R       7     4.58            44
+#> 3 Wind          0     0               44
+#> 4 Temp          0     0               44
+#> 5 Month         0     0               44
+#> 6 Day           0     0               44
 miss_case_summary(airquality)
-#> # A tibble: 153 x 3
-#>     case n_missing  percent
-#>    <int>     <int>    <dbl>
-#>  1     5         2 33.33333
-#>  2    27         2 33.33333
-#>  3     6         1 16.66667
-#>  4    10         1 16.66667
-#>  5    11         1 16.66667
-#>  6    25         1 16.66667
-#>  7    26         1 16.66667
-#>  8    32         1 16.66667
-#>  9    33         1 16.66667
-#> 10    34         1 16.66667
+#> # A tibble: 153 x 4
+#>     case n_miss pct_miss n_miss_cumsum
+#>    <int>  <int>    <dbl>         <int>
+#>  1     1      0      0               0
+#>  2     2      0      0               0
+#>  3     3      0      0               0
+#>  4     4      0      0               0
+#>  5     5      2     33.3             2
+#>  6     6      1     16.7             3
+#>  7     7      0      0               3
+#>  8     8      0      0               3
+#>  9     9      0      0               3
+#> 10    10      1     16.7             4
 #> # ... with 143 more rows
 ```
 
@@ -231,19 +237,19 @@ library(dplyr)
 airquality %>%
   group_by(Month) %>%
   miss_var_summary()
-#> # A tibble: 25 x 4
-#>    Month variable n_missing  percent
-#>    <int>    <chr>     <int>    <dbl>
-#>  1     5    Ozone         5 16.12903
-#>  2     5  Solar.R         4 12.90323
-#>  3     5     Wind         0  0.00000
-#>  4     5     Temp         0  0.00000
-#>  5     5      Day         0  0.00000
-#>  6     6    Ozone        21 70.00000
-#>  7     6  Solar.R         0  0.00000
-#>  8     6     Wind         0  0.00000
-#>  9     6     Temp         0  0.00000
-#> 10     6      Day         0  0.00000
+#> # A tibble: 25 x 5
+#>    Month variable n_miss pct_miss n_miss_cumsum
+#>    <int> <chr>     <int>    <dbl>         <int>
+#>  1     5 Ozone         5     16.1             5
+#>  2     5 Solar.R       4     12.9             9
+#>  3     5 Wind          0      0               9
+#>  4     5 Temp          0      0               9
+#>  5     5 Day           0      0               9
+#>  6     6 Ozone        21     70.0            21
+#>  7     6 Solar.R       0      0              21
+#>  8     6 Wind          0      0              21
+#>  9     6 Temp          0      0              21
+#> 10     6 Day           0      0              21
 #> # ... with 15 more rows
 ```
 
@@ -271,7 +277,7 @@ Firstly, thanks to [Di Cook](https://github.com/dicook) for giving the initial i
 A note on the name
 ------------------
 
-naniar was previously named `ggmissing` and initially provided a ggplot geom and some other visualisations. `ggmissing` was changed to naniar to reflect the fact that this package is going to be bigger in scope, and is not just related to ggplot2. Specifically, the package is designed to provide a suite of tools for generating visualisations of missing values and imputations, manipulate, and summarise missing data.
+naniar was previously named `ggmissing` and initially provided a ggplot geom and some other visualisations. `ggmissing` was changed to `naniar` to reflect the fact that this package is going to be bigger in scope, and is not just related to `ggplot2`. Specifically, the package is designed to provide a suite of tools for generating visualisations of missing values and imputations, manipulate, and summarise missing data.
 
 > ...But *why* naniar?
 

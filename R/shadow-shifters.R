@@ -9,6 +9,8 @@
 #' @param x a variable of interest to shift
 #' @param ... extra arguments to pass
 #'
+#' @seealso [add_shadow_shift()] [cast_shadow_shift()] [cast_shadow_shift_label()]
+#'
 #' @examples
 #' airquality$Ozone
 #' shadow_shift(airquality$Ozone)
@@ -39,7 +41,8 @@ shadow_shift.numeric <- function(x, seed_shift = 2017-7-1-1850, ...){
   # add an exception for cases with infinite values
   if (any(is.infinite(x))) {
 
-    xmin <- min(x, na.rm = TRUE)
+    # use the minimum for the non infinite values
+    xmin <- min(x[!is.infinite(x)], na.rm = TRUE)
 
     x_shift <- xmin - xmin*0.1
 
@@ -47,9 +50,13 @@ shadow_shift.numeric <- function(x, seed_shift = 2017-7-1-1850, ...){
     set.seed(seed_shift)
     x_jitter <- (stats::runif(length(x))-0.50)*x_shift*0.10
 
-    ifelse(is.na(x),
+    # overwrite x
+    x <- ifelse(is.na(x),
            yes = x_shift + x_jitter,
            no = x)
+
+    # exit early, no need to move through the rest
+    return(x)
 
   }
 

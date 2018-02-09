@@ -6,6 +6,9 @@
 #' @param data a dataframe
 #'
 #' @return a dataframe
+#'
+#' @seealso [miss_case_pct]() [miss_case_prop]() [miss_prop_summary()] [miss_case_summary]() [miss_summary]() [miss_var_pct]() [miss_var_prop]() [miss_var_run]() [miss_var_span]() [miss_var_summary]() [miss_var_table]()
+#'
 #' @export
 #'
 #' @examples
@@ -29,14 +32,12 @@ miss_case_table <- function(data){
 #' @export
 miss_case_table.default <- function(data){
 
-  purrrlyr::by_row(.d = data,
-                   # how many are missing in each row?
-                   ..f = ~n_miss(.),
-                   .collate = "row",
-                   .to = "n_missing_in_case") %>%
-    dplyr::group_by(n_missing_in_case) %>%
+  data[["n_miss_in_case"]] <- n_miss_row(data)
+
+  data %>%
+    dplyr::group_by(n_miss_in_case) %>%
     dplyr::tally() %>%
-    dplyr::mutate(percent = (n / nrow(data) * 100)) %>%
+    dplyr::mutate(pct_miss = (n / nrow(data) * 100)) %>%
     dplyr::rename(n_cases = n)
 
 }
@@ -58,6 +59,9 @@ miss_case_table.grouped_df <- function(data){
 #' @param data a dataframe
 #'
 #' @return a dataframe
+#'
+#' @seealso [miss_case_pct]() [miss_case_prop]() [miss_prop_summary()] [miss_case_summary]() [miss_case_table]() [miss_summary]() [miss_var_pct]() [miss_var_prop]() [miss_var_run]() [miss_var_span]() [miss_var_summary]() [miss_var_table]()
+#'
 #' @export
 #'
 #' @examples
@@ -83,13 +87,13 @@ miss_var_table <- function(data){
 
 miss_var_table.default <- function(data){
 
-  purrr::map_df(data, ~sum(is.na(.))) %>%
+  purrr::map_df(data, ~n_miss(.)) %>%
     tidyr::gather(key = "variable",
-                  value = "n_missing_in_var") %>%
-    dplyr::group_by(n_missing_in_var) %>%
+                  value = "n_miss_in_var") %>%
+    dplyr::group_by(n_miss_in_var) %>%
     dplyr::tally() %>%
     dplyr::rename(n_vars = n) %>%
-    dplyr::mutate(percent = (n_vars / ncol(data) * 100))
+    dplyr::mutate(pct_miss = (n_vars / ncol(data) * 100))
 
 }
 

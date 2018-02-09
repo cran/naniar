@@ -9,6 +9,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r knitr-setup, include = FALSE}
+knitr::opts_chunk$set(fig.align = "center",
+                      fig.width = 5,
+                      fig.height = 4,
+                      dpi = 100)
+
+```
+
 There are a variety of different plots to explore missing data available in the naniar package. This vignette simply showcases all of the visualisations. If you would like to know more about the philosophy of the `naniar` package, you should read the vignette [Getting Started with naniar](http://naniar.njtierney.com/articles/getting-started-w-naniar.html).
 
 A key point to remember with the visualisation tools in `naniar` is that there is a way to get the data from the plot out from the visualisation.
@@ -17,7 +25,7 @@ A key point to remember with the visualisation tools in `naniar` is that there i
 
 One of the first plots that I recommend you start with when you are first exploring your missing data, is the `vis_miss()` plot, which is re-exported from [`visdat`](https://www.github.com/ropensci/visdat).
 
-```{r}
+```{r vis-miss}
 library(naniar)
 
 vis_miss(airquality)
@@ -66,7 +74,7 @@ ggplot(airquality,
 
 # General visual summaries of missing data
 
-These
+Here are some function that provide quick summaries of missingness in your data, they all start with `gg_miss_` - so that they are easy to remember and tab-complete.
 
 ## `gg_miss_var()`
 
@@ -80,6 +88,21 @@ gg_miss_var(airquality) + labs(y = "Look at all the missing ones")
 
 ```
 
+If you wish, you can also change whether to show the % of missing instead with `show_pct = TRUE`.
+
+```{r gg-miss-var-show-pct}
+gg_miss_var(airquality, show_pct = TRUE)
+```
+
+You can also plot the number of missings in a variable grouped by another variable using the `facet` argument.
+
+```{r gg-miss-var-group}
+
+gg_miss_var(airquality,
+            facet = Month)
+
+```
+
 
 ## `gg_miss_case()`
 
@@ -87,10 +110,24 @@ This plot shows the number of missing values in each case. It is powered by the 
 
 ```{r gg-miss-case}
 gg_miss_case(airquality)
-library(ggplot2)
 gg_miss_case(airquality) + labs(x = "Number of Cases")
 ```
 
+You can also order by the number of cases using `order_cases = TRUE`
+
+```{r gg-miss-case-order-by-case}
+
+gg_miss_case(airquality, order_cases = TRUE)
+
+```
+
+You can also explore the misisngness in cases over some variable using `facet = Month`
+
+```{r gg-miss-case-group}
+
+gg_miss_case(airquality, facet = Month)
+
+```
 
 ## `gg_miss_fct()`
 
@@ -127,6 +164,17 @@ gg_miss_span(pedestrian, hourly_counts, span_every = 3000) + theme_dark()
 
 ```
 
+You can also explore `miss_var_span` by group with the `facet` argument.
+
+```{r gg-miss-span-group}
+
+gg_miss_span(pedestrian, 
+             hourly_counts, 
+             span_every = 3000, 
+             facet = sensor_name)
+
+```
+
 
 ## `gg_miss_case_cumsum()`
 
@@ -137,7 +185,6 @@ gg_miss_case_cumsum(airquality)
 library(ggplot2)
 gg_miss_case_cumsum(riskfactors, breaks = 50) + theme_bw()
 
-miss_case_cumsum(riskfactors)
 ```
 
 ## `gg_miss_var_cumsum()`

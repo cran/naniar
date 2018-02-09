@@ -1,7 +1,8 @@
 ## ----knitr-setup, include = FALSE----------------------------------------
 knitr::opts_chunk$set(fig.align = "center",
                       fig.width = 5,
-                      fig.height = 4)
+                      fig.height = 4,
+                      dpi = 100)
 
 
 ## ----vis-dat, echo = TRUE------------------------------------------------
@@ -21,7 +22,7 @@ ggplot(airquality,
            y = Ozone)) + 
   geom_point()
 
-## ----echo = TRUE, out.width = "50%", fig.show='hold'---------------------
+## ----geom-miss-point, echo = TRUE, out.width = "50%", fig.show='hold'----
 
 ggplot(airquality, 
        aes(x = Solar.R, 
@@ -60,21 +61,24 @@ ggplot(airquality,
 gg_miss_var(airquality)
 
 
-## ------------------------------------------------------------------------
+## ----gg-miss-var---------------------------------------------------------
 gg_miss_var(airquality) + theme_bw() 
 
 gg_miss_var(airquality) + labs(y = "Look at all the missing ones")
 
 
+## ----gg-miss-var-facet---------------------------------------------------
+gg_miss_var(airquality, facet = Month)
+
 ## ---- out.width = "800px", echo = F--------------------------------------
 knitr::include_graphics("missingness-data-structures.png")
 
-## ------------------------------------------------------------------------
+## ----as-shadow-----------------------------------------------------------
 
 as_shadow(airquality)
 
 
-## ----echo = TRUE---------------------------------------------------------
+## ----bind-shadow, echo = TRUE--------------------------------------------
 
 aq_shadow <- bind_shadow(airquality)
 
@@ -100,7 +104,7 @@ ggplot(aq_shadow,
   geom_density()
 
 
-## ----echo = TRUE, fig.height = 3-----------------------------------------
+## ----simpute-invisible, echo = TRUE, fig.height = 3----------------------
 
 library(simputation)
 library(dplyr)
@@ -112,7 +116,7 @@ airquality %>%
   geom_point()
   
 
-## ----echo = TRUE, fig.height = 3-----------------------------------------
+## ----simpute-visible, echo = TRUE, fig.height = 3------------------------
 
 aq_shadow %>%
   impute_lm(Ozone ~ Temp + Wind) %>%

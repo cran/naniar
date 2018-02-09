@@ -8,6 +8,7 @@ magrittr::`%>%`
 #'
 #' @param data data.frame, which will be grouped
 #' @param .fun a function to apply
+#' @param ... additional arguments to be passed to map
 #'
 #' @return a dataframe with the function applied to each group
 #'
@@ -22,9 +23,9 @@ magrittr::`%>%`
 #' miss_case_table()
 #' }
 #'
-group_by_fun <- function(data,.fun){
+group_by_fun <- function(data,.fun, ...){
   tidyr::nest(data) %>%
-    dplyr::mutate(data = purrr::map(data, .fun)) %>%
+    dplyr::mutate(data = purrr::map(data, .fun, ...)) %>%
     tidyr::unnest()
 }
 
@@ -93,46 +94,6 @@ test_if_dataframe <- function(x){
   if (!inherits(x, "data.frame")) {
     stop("Input must inherit from data.frame", call. = FALSE)
     }
-}
-
-#' Which rows and cols contain missings?
-#'
-#' Internal function that is short for `which(is.na(x))`. Creates integer
-#'   locations of missing values in a dataframe. May be used in future `impl_df`
-#'   class.
-#'
-#' @param x a dataframe
-#'
-#' @return integers that describe the location of missing values
-#'
-#' @seealso which_na
-#'
-#' @examples
-#'
-#' naniar:::where_na(airquality)
-#'
-where_na <- function(x){
-  which(is.na(x), arr.ind = TRUE)
-}
-
-#' Which elements contain missings?
-#'
-#' Internal function that creates a matrix containing the location of missing
-#'   values in a dataframe. This may be used in the future `impl_df` class.
-#'
-#' @param x a dataframe
-#'
-#' @return a matrix with columns "row" and "col", which refer to the row and
-#'     column that identify the position of a missing value in a dataframe
-#'
-#' @seealso where_na
-#'
-#' @examples
-#'
-#' naniar:::which_na(airquality)
-#'
-which_na <- function(x){
-  which(is.na(x))
 }
 
 #' Helper function to determine whether there are any missings

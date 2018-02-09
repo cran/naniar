@@ -21,9 +21,9 @@ Tropical Atmosphere Ocean project
 Format: a data frame with 736 observations on the following 8
 variables.
 \describe{
-\item{\code{year}}{A factor with levels \code{1993} \code{1997}.}
-\item{\code{latitude}}{A factor with levels \code{-5}  \code{-2} \code{0}.}
-\item{\code{longitude}}{A factor with levels \code{-110} \code{-95}.}
+\item{\code{year}}{A numeric with levels \code{1993} \code{1997}.}
+\item{\code{latitude}}{A numeric with levels \code{-5}  \code{-2} \code{0}.}
+\item{\code{longitude}}{A numeric with levels \code{-110} \code{-95}.}
 \item{\code{sea_temp_c}}{Sea surface temperature(degree Celsius),  measured
 by the TAO buoys at one meter below the surface.}
 \item{\code{air_temp_c}}{Air temperature(degree Celsius), measured by the
@@ -39,6 +39,48 @@ buoys measure the wind speed and direction four meters above the sea
 surface. If it is positive, the North-South component of the wind is
 blowing towards the North. If it is negative, this component is blowing
 towards the South.}}
+}
+\examples{
+
+# explore the missingness with vis_miss
+library(naniar)
+
+vis_miss(oceanbuoys)
+
+# Look at the missingness in the variables
+miss_var_summary(oceanbuoys)
+
+# Look at the missingness in air temperature and humidity
+library(ggplot2)
+p <-
+ggplot(oceanbuoys,
+       aes(x = air_temp_c,
+           y = humidity)) +
+     geom_miss_point()
+
+ p
+
+ # for each year?
+ p + facet_wrap(~year)
+
+ # this shows that there are more missing values in humidity in 1993, and
+ # more air temperature missing values in 1997
+
+ # what if we explore the value of air temperature and humidity based on
+ # the missingness of each
+
+ oceanbuoys \%>\%
+   bind_shadow() \%>\%
+   ggplot(aes(x = air_temp_c,
+              fill = humidity_NA)) +
+       geom_histogram()
+
+ oceanbuoys \%>\%
+   bind_shadow() \%>\%
+   ggplot(aes(x = humidity,
+              fill = air_temp_c_NA)) +
+       geom_histogram()
+
 }
 \seealso{
 library(MissingDataGUI) (data named "tao")

@@ -1,4 +1,11 @@
-## ------------------------------------------------------------------------
+## ----knitr-setup, include = FALSE----------------------------------------
+knitr::opts_chunk$set(fig.align = "center",
+                      fig.width = 5,
+                      fig.height = 4,
+                      dpi = 100)
+
+
+## ----vis-miss------------------------------------------------------------
 library(naniar)
 
 vis_miss(airquality)
@@ -42,10 +49,28 @@ library(ggplot2)
 gg_miss_var(airquality) + labs(y = "Look at all the missing ones")
 
 
+## ----gg-miss-var-show-pct------------------------------------------------
+gg_miss_var(airquality, show_pct = TRUE)
+
+## ----gg-miss-var-group---------------------------------------------------
+
+gg_miss_var(airquality,
+            facet = Month)
+
+
 ## ----gg-miss-case--------------------------------------------------------
 gg_miss_case(airquality)
-library(ggplot2)
 gg_miss_case(airquality) + labs(x = "Number of Cases")
+
+## ----gg-miss-case-order-by-case------------------------------------------
+
+gg_miss_case(airquality, order_cases = TRUE)
+
+
+## ----gg-miss-case-group--------------------------------------------------
+
+gg_miss_case(airquality, facet = Month)
+
 
 ## ----gg-miss-fct---------------------------------------------------------
 
@@ -72,12 +97,19 @@ gg_miss_span(pedestrian, hourly_counts, span_every = 3000) + labs(x = "custom")
 gg_miss_span(pedestrian, hourly_counts, span_every = 3000) + theme_dark()
 
 
+## ----gg-miss-span-group--------------------------------------------------
+
+gg_miss_span(pedestrian, 
+             hourly_counts, 
+             span_every = 3000, 
+             facet = sensor_name)
+
+
 ## ----gg-miss-case-cumsum-------------------------------------------------
 gg_miss_case_cumsum(airquality)
 library(ggplot2)
 gg_miss_case_cumsum(riskfactors, breaks = 50) + theme_bw()
 
-miss_case_cumsum(riskfactors)
 
 ## ----gg-miss-var-cumsum--------------------------------------------------
 gg_miss_var_cumsum(airquality)

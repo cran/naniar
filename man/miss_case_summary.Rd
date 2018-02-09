@@ -4,10 +4,14 @@
 \alias{miss_case_summary}
 \title{Summarise the missingness in each case}
 \usage{
-miss_case_summary(data)
+miss_case_summary(data, order = FALSE, ...)
 }
 \arguments{
 \item{data}{a data.frame}
+
+\item{order}{a logical indicating whether or not to order the result by n_miss. TRUE orders from largest to smallest n_miss, and FALSE orders by order provided by the data.}
+
+\item{...}{extra arguments}
 }
 \value{
 a tibble of the percent of missing data in each case.
@@ -26,4 +30,7 @@ airquality \%>\%
 
 miss_case_summary(airquality)
 
+}
+\seealso{
+\url{miss_case_pct} \url{miss_case_prop} \code{\link[=miss_prop_summary]{miss_prop_summary()}} \url{miss_case_table} \url{miss_summary} \url{miss_var_pct} \url{miss_var_prop} \url{miss_var_run} \url{miss_var_span} \url{miss_var_summary} \url{miss_var_table}
 }

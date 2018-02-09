@@ -5,8 +5,7 @@
 #' matrix is the same dimension as the data, and consists of binary indicators
 #' of missingness of data values, where missing is represented as "NA", and not
 #' missing is represented as "!NA". Although these may be represented as 1 and
-#' 0, respectively. This representation can be seen in the figure below, adding
-#' the suffix "_NA" to the variables.
+#' 0, respectively.
 #'
 #' @param data dataframe
 #' @param ... selected variables to use
@@ -51,18 +50,28 @@ as_shadow.data.frame <- function(data, ...){
 #' missing data.
 #'
 #' @param data a dataframe
+#' @param only_miss logical - if FALSE (default) it will bind a dataframe with
+#'     all of the variables duplicated with their shadow. Setting this to TRUE
+#'     will bind variables only those variables that contain missing values.
+#'     See the examples for more details.
 #'
-#' @return dataframe with an extra appended layer of data.
+#' @return data with the added variable shifted and the suffix `_NA`
 #' @export
 #'
 #' @examples
+#'
+#' bind_shadow(airquality)
+#'
+#' # bind only the variables that contain missing values
+#' bind_shadow(airquality, only_miss = TRUE)
 #'
 #' aq_shadow <- bind_shadow(airquality)
 #'
 #' # explore missing data visually
 #' library(ggplot2)
 #'
-#' # using the bounded shadow
+#' # using the bounded shadow to visualise Ozone according to whether Solar
+#' # Radiation is missing or not.
 #'
 #' ggplot(data = aq_shadow,
 #'        aes(x = Ozone)) +
@@ -70,21 +79,36 @@ as_shadow.data.frame <- function(data, ...){
 #'        facet_wrap(~Solar.R_NA,
 #'        ncol = 1)
 #'
-bind_shadow <- function(data){
+bind_shadow <- function(data, only_miss = FALSE){
 
-  data_shadow <- as_shadow(data)
+  # If you want only the missing values to be added
+  if (only_miss) {
 
-  bound_shadow <- dplyr::bind_cols(data, data_shadow)
+    # I want to only select columns that contain a missing value.
+    miss_vars <- rlang::syms(which_var_na(data))
 
-  tibble::as_tibble(bound_shadow)
+    shadow_vars <- dplyr::select(data, !!!miss_vars) %>% as_shadow()
+
+    tibble::as_tibble(dplyr::bind_cols(data, shadow_vars))
+
+  # if you want All the values to be added (the default behaviour)
+  } else if (!only_miss) {
+
+    data_shadow <- as_shadow(data)
+
+    bound_shadow <- dplyr::bind_cols(data, data_shadow)
+
+    tibble::as_tibble(bound_shadow)
+
+  }
 
 }
 
 #' Long form representation of a shadow matrix
 #'
 #' `gather_shadow` is a long-form representation of binding the shadow matrix to
-#'   your data, producing variables named `rows`, `var`, and `miss`, where
-#'   `miss` contains the missing value representation.
+#'     your data, producing variables named `case`, `variable`, and `missing`, where
+#'     `missing` contains the missing value representation.
 #'
 #' @param data a dataframe
 #'
@@ -100,7 +124,8 @@ gather_shadow <- function(data){
 
   as_shadow(data) %>%
     dplyr::mutate(rows = 1:nrow(.)) %>%
-    tidyr::gather(key = "var",
-                  value = "miss",
-                  -rows)
+    tidyr::gather(key = "variable",
+                  value = "missing",
+                  -rows) %>%
+    dplyr::rename(case = rows)
 }

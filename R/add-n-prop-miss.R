@@ -17,6 +17,8 @@
 #'
 #' @export
 #'
+#' @seealso [bind_shadow()] [add_any_miss()] [add_label_missings()] [add_label_shadow()] [add_miss_cluster()] [add_prop_miss()] [add_shadow_shift()] [cast_shadow()]
+#'
 #' @examples
 #'
 #' airquality %>% add_n_miss()
@@ -27,29 +29,17 @@
 add_n_miss <- function(data, ..., label = "n_miss"){
 
   if (missing(...)) {
-    purrrlyr::by_row(.d = data,
-                     ..f = function(x) n_miss(x),
-                     .collate = "row",
-                     .to = paste0(label,"_all"))
+    data[[paste0(label, "_all")]] <- n_miss_row(data)
   } else {
 
     quo_vars <- rlang::quos(...)
 
     selected_data <- dplyr::select(data, !!!quo_vars)
 
-    prop_selected_data <- purrrlyr::by_row(.d = selected_data,
-                                           ..f = function(x) n_miss(x),
-                                           .collate = "row",
-                                           .to =  paste0(label,"_vars"))
-
-    # add only the variables prop_miss function, not the whole data.frame...
-    prop_selected_data_cut <- prop_selected_data %>%
-      dplyr::select(!!as.name(paste0(label,"_vars")))
-
-    dplyr::bind_cols(data, prop_selected_data_cut) %>% dplyr::as_tibble()
-
+    data[[paste0(label, "_vars")]] <- n_miss_row(selected_data)
   } # close else loop
 
+  data
 }
 
 #' Add column containing proportion of missing data values
@@ -72,6 +62,8 @@ add_n_miss <- function(data, ..., label = "n_miss"){
 #' @return a dataframe
 #'
 #' @export
+#'
+#' @seealso [bind_shadow()] [add_any_miss()] [add_label_missings()] [add_label_shadow()] [add_miss_cluster()] [add_prop_miss()] [add_shadow_shift()] [cast_shadow()]
 #'
 #' @examples
 #'
@@ -98,26 +90,16 @@ add_n_miss <- function(data, ..., label = "n_miss"){
 add_prop_miss <- function(data, ..., label = "prop_miss"){
 
   if (missing(...)) {
-    purrrlyr::by_row(.d = data,
-                     ..f = function(x) (mean(is.na(x))),
-                     .collate = "row",
-                     .to = paste0(label,"_all"))
+    data[[paste0(label, "_all")]] <- prop_miss_row(data)
   } else {
 
     quo_vars <- rlang::quos(...)
 
     selected_data <- dplyr::select(data, !!!quo_vars)
 
-    prop_selected_data <- purrrlyr::by_row(.d = selected_data,
-                                           ..f = function(x) prop_miss(x),
-                                           .collate = "row",
-                                           .to =  paste0(label,"_vars"))
+    data[[paste0(label, "_vars")]] <- prop_miss_row(selected_data)
 
-    # add only the variables prop_miss function, not the whole data.frame...
-    prop_selected_data_cut <- prop_selected_data %>%
-      dplyr::select(!!as.name(paste0(label,"_vars")))
+  } # close else loop
 
-    dplyr::bind_cols(data, prop_selected_data_cut) %>% dplyr::as_tibble()
-
-  }
+  data
 }

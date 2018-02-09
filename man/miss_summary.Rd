@@ -4,10 +4,14 @@
 \alias{miss_summary}
 \title{Collate summary measures from naniar into one tibble}
 \usage{
-miss_summary(data)
+miss_summary(data, order = FALSE)
 }
 \arguments{
 \item{data}{a dataframe}
+
+\item{order}{whether or not to order the result by n_miss}
+
+\item{...}{extra arguments}
 }
 \value{
 a tibble of missing data summaries
@@ -21,6 +25,7 @@ them into lists within a tibble
 s_miss <- miss_summary(airquality)
 s_miss$miss_df_prop
 s_miss$miss_case_table
+s_miss$miss_var_summary
 # etc, etc, etc.
 
 library(dplyr)
@@ -30,4 +35,7 @@ s_miss_group$miss_case_table
 # etc, etc, etc.
 
 
+}
+\seealso{
+\url{miss_case_pct} \url{miss_case_prop} \code{\link[=miss_prop_summary]{miss_prop_summary()}} \url{miss_case_summary} \url{miss_case_table} \url{miss_var_pct} \url{miss_var_prop} \url{miss_var_run} \url{miss_var_span} \url{miss_var_summary} \url{miss_var_table}
 }
