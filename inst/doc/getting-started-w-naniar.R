@@ -15,7 +15,7 @@ vis_dat(airquality)
 vis_miss(airquality)
 
 
-## ----echo = TRUE, fig.width = 5, fig.height=3----------------------------
+## ----example-geom-point, echo = TRUE, fig.width = 5, fig.height=3--------
 library(ggplot2)
 ggplot(airquality, 
        aes(x = Solar.R, 
@@ -56,12 +56,12 @@ ggplot(airquality,
   theme_dark()
 
 
-## ------------------------------------------------------------------------
+## ----gg-miss-var---------------------------------------------------------
 
 gg_miss_var(airquality)
 
 
-## ----gg-miss-var---------------------------------------------------------
+## ----gg-miss-var-theme---------------------------------------------------
 gg_miss_var(airquality) + theme_bw() 
 
 gg_miss_var(airquality) + labs(y = "Look at all the missing ones")
@@ -70,7 +70,7 @@ gg_miss_var(airquality) + labs(y = "Look at all the missing ones")
 ## ----gg-miss-var-facet---------------------------------------------------
 gg_miss_var(airquality, facet = Month)
 
-## ---- out.width = "800px", echo = F--------------------------------------
+## ----mds-fig, out.width = "800px", echo = F------------------------------
 knitr::include_graphics("missingness-data-structures.png")
 
 ## ----as-shadow-----------------------------------------------------------
@@ -126,7 +126,7 @@ aq_shadow %>%
   geom_point()
   
 
-## ----echo = TRUE---------------------------------------------------------
+## ----helpers-n-miss, echo = TRUE-----------------------------------------
 
 dplyr::n_distinct(airquality)
 dplyr::n_distinct(airquality$Ozone)
@@ -138,53 +138,53 @@ n_complete(airquality)
 n_complete(airquality$Ozone)
 
 
-## ------------------------------------------------------------------------
+## ----miss-case-prop------------------------------------------------------
 miss_case_prop(airquality)
 miss_case_pct(airquality)
 
-## ------------------------------------------------------------------------
+## ----miss-case-summary---------------------------------------------------
 
 miss_case_summary(airquality)
 
 
-## ------------------------------------------------------------------------
+## ----miss-case-table-----------------------------------------------------
 
 miss_case_table(airquality)
 
 
-## ------------------------------------------------------------------------
+## ----miss-var-prop-------------------------------------------------------
 
 miss_var_prop(airquality)
 miss_var_pct(airquality)
 
 
-## ------------------------------------------------------------------------
+## ----miss-var-summary----------------------------------------------------
 
 miss_var_summary(airquality)
 
 
-## ------------------------------------------------------------------------
+## ----miss-var-table------------------------------------------------------
 
 miss_var_table(airquality)
 
 
-## ------------------------------------------------------------------------
+## ----miss-var-run--------------------------------------------------------
 miss_var_run(pedestrian,
              hourly_counts)
 
-## ------------------------------------------------------------------------
+## ----ped-miss-var-span---------------------------------------------------
 
 miss_var_span(pedestrian,
               hourly_counts,
               span_every = 100)
 
 
-## ------------------------------------------------------------------------
+## ----ped-miss-var-sum----------------------------------------------------
 
 pedestrian %>% miss_var_summary()
 
 
-## ------------------------------------------------------------------------
+## ----ped-group-by-miss-var-sum-------------------------------------------
 
 pedestrian %>%
  group_by(month) %>%

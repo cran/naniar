@@ -10,6 +10,30 @@ library(naniar)
 
 vis_miss(airquality)
 
+## ----upset-plot----------------------------------------------------------
+
+library(UpSetR)
+
+airquality %>%
+  as_shadow_upset() %>%
+  upset()
+
+
+## ----upset-plot-riskfactors----------------------------------------------
+
+riskfactors %>%
+  as_shadow_upset() %>%
+  upset()
+
+# explore as many sets as there are variables with missing data in risk factors
+# (24)
+n_var_miss(riskfactors)
+
+riskfactors %>%
+  as_shadow_upset() %>%
+  upset(nsets = 24)
+
+
 ## ----ggplot-geom-miss-point----------------------------------------------
 library(ggplot2)
 # using regular geom_point()

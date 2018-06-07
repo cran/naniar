@@ -44,6 +44,42 @@ as_shadow.data.frame <- function(data, ...){
 
 }
 
+
+#' Convert data into shadow format for doing an upset plot
+#'
+#' Upset plots are a way of visualising common sets, this function transforms
+#'     the data into a format that feeds directly into an upset plot
+#'
+#' @param data a data.frame
+#'
+#' @return a data.frame
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' library(UpSetR)
+#' airquality %>%
+#'   as_shadow_upset() %>%
+#'   upset()
+#' }
+#'
+#' @export
+as_shadow_upset <- function(data){
+
+  test_if_null(data)
+
+  test_if_dataframe(data)
+
+  data_shadow <- as.data.frame(is.na(data)*1)
+
+  names(data_shadow) <- paste0(names(data),"_NA")
+
+  dplyr::mutate_if(data_shadow, is.numeric, as.integer)
+
+}
+
+
 #' Bind a shadow dataframe to original data
 #'
 #' Binding a shadow matrix to a regular dataframe helps visualise and work with
@@ -85,7 +121,7 @@ bind_shadow <- function(data, only_miss = FALSE){
   if (only_miss) {
 
     # I want to only select columns that contain a missing value.
-    miss_vars <- rlang::syms(which_var_na(data))
+    miss_vars <- rlang::syms(miss_var_which(data))
 
     shadow_vars <- dplyr::select(data, !!!miss_vars) %>% as_shadow()
 
@@ -103,6 +139,51 @@ bind_shadow <- function(data, only_miss = FALSE){
   }
 
 }
+
+#' Unbind (remove) shadow from data, and vice versa
+#'
+#' Remove the shadow variables (which end in _NA) from the data, or vice versa
+#'
+#' @param data a data.frame containing shadow columns (created by bind_shadow)
+#'
+#' @return dataframe without shadow columns if using unbind_shadow, or without
+#'  the original data, if using unbind_data
+#' @name unbinders
+#'
+#' @export
+#'
+#' @examples
+#'
+#' # bind shadow columns
+#' aq_sh <- bind_shadow(airquality)
+#'
+#' # print data
+#' aq_sh
+#'
+#' # remove shadow columns
+#' unbind_shadow(aq_sh)
+#'
+#' # remove data
+#' unbind_data(aq_sh)
+#'
+#' # errors when you don't use data with shadows
+#' \dontrun{
+#'  unbind_data(airquality)
+#'  unbind_shadow(airquality)
+#' }
+#'
+unbind_shadow <- function(data){
+  test_if_any_shadow(data)
+  dplyr::select(data, -dplyr::ends_with("_NA"))
+}
+
+#' @rdname unbinders
+#' @export
+unbind_data <- function(data){
+  test_if_any_shadow(data)
+  dplyr::select(data, dplyr::ends_with("_NA"))
+}
+
 
 #' Long form representation of a shadow matrix
 #'
@@ -123,9 +204,47 @@ bind_shadow <- function(data, only_miss = FALSE){
 gather_shadow <- function(data){
 
   as_shadow(data) %>%
-    dplyr::mutate(rows = 1:nrow(.)) %>%
+    dplyr::mutate(rows = seq_len(nrow(.))) %>%
     tidyr::gather(key = "variable",
                   value = "missing",
                   -rows) %>%
     dplyr::rename(case = rows)
 }
+
+#' Is this thing a shadow?
+#'
+#' Does this thing contain a shadow variable?
+#'
+#' @param x vector or data.frame
+#'
+#' @return logical - single value. TRUE if contains a variable with a column ending in "_NA"
+#' @export
+#'
+#' @examples
+#'
+#' df_shadow <- bind_shadow(airquality)
+#'
+#' is_shadow(df_shadow)
+#'
+#' @export
+is_shadow <- function(x){
+  any(grepl("_NA",names(x)))
+}
+
+#' Are these things shadows?
+#'
+#' Does this thing contain a shadow variable?
+#'
+#' @param x vector or data.frame
+#'
+#' @return logical vector - TRUE if contains a variable with a column ending in "_NA"
+#' @export
+#'
+#' @examples
+#'
+#' df_shadow <- bind_shadow(airquality)
+#'
+#' are_shadow(df_shadow)
+#'
+#' @export
+are_shadow <- function(x) grepl("_NA",names(x))

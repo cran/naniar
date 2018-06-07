@@ -71,3 +71,33 @@ df %>%
                      condition = ~.x %in% (na_strings))
 
 
+## ----dplyr-na-if---------------------------------------------------------
+
+# instead of:
+df_1 <- df %>% replace_with_na_all(condition = ~.x == -99)
+df_1
+
+df_2 <- df %>% dplyr::na_if(-99)
+df_2
+
+# are they the same?
+all.equal(df_1, df_2)
+
+## ----replace-with-na-all-final-example-----------------------------------
+
+na_strings <- c("NA", "N A", "N / A", "N/A", "N/ A", "Not Available", "NOt available")
+df_3 <- df %>% replace_with_na_all(condition = ~.x %in% na_strings)
+
+
+## ----replace-with-na-all-na-if, eval = FALSE-----------------------------
+#  
+#  # Not run:
+#  df_4 <- df %>% dplyr::na_if(x = ., y = na_strings)
+#  # Error in check_length(y, x, fmt_args("y"), glue("same as {fmt_args(~x)}")) :
+#    # argument "y" is missing, with no default
+
+## ----readr-example, eval = FALSE-----------------------------------------
+#  # not run
+#  dat_raw <- readr::read_csv("original.csv", na = na_strings)
+#  
+
