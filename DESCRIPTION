@@ -1,7 +1,7 @@
 Package: naniar
 Type: Package
 Title: Data Structures, Summaries, and Visualisations for Missing Data
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
   person("Nicholas", "Tierney", 
          role = c("aut", "cre"),
@@ -39,7 +39,7 @@ Suggests: knitr, rmarkdown, testthat, rpart, rpart.plot, covr,
 VignetteBuilder: knitr
 Depends: R (>= 3.1.2)
 Imports: dplyr, ggplot2, purrr, tidyr, tibble, magrittr, stats, visdat,
-        rlang, forcats, viridis, glue, tidyselect
+        rlang, forcats, viridis, glue
 RoxygenNote: 6.0.1
 Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
         'data-common-na-numbers.R' 'data-common-na-strings.R'
@@ -59,7 +59,7 @@ Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
 URL: https://github.com/njtierney/naniar
 BugReports: https://github.com/njtierney/naniar/issues
 NeedsCompilation: no
-Packaged: 2018-06-06 13:49:15 UTC; ntie0001
+Packaged: 2018-06-08 04:02:34 UTC; ntie0001
 Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Di Cook [aut] (<https://orcid.org/0000-0002-3813-7155>),
   Miles McBain [aut] (<https://orcid.org/0000-0003-2865-2548>),
@@ -68,4 +68,4 @@ Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Luke Smith [ctb]
 Maintainer: Nicholas Tierney <nicholas.tierney@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-06-07 16:18:03 UTC
+Date/Publication: 2018-06-08 08:03:11 UTC
