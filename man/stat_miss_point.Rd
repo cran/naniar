@@ -4,9 +4,9 @@
 \alias{stat_miss_point}
 \title{stat_miss_point}
 \usage{
-stat_miss_point(mapping = NULL, data = NULL, geom = "point",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+stat_miss_point(mapping = NULL, data = NULL, prop_below = 0.1,
+  jitter = 0.05, geom = "point", position = "identity",
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}}
@@ -17,6 +17,10 @@ the plot.}
 
 \item{data}{A data frame. If specified, overrides the default data frame
 defined at the top level of the plot.}
+
+\item{prop_below}{the degree to shift the values. The default is 0.1}
+
+\item{jitter}{the amount of jitter to add. The default is 0.05}
 
 \item{geom, }{stat Override the default connection between \code{geom_point} and
 \code{stat_point}.}

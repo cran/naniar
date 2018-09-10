@@ -28,8 +28,8 @@ shadow_shift.NULL <- function(x, ...) NULL
 shadow_shift.default <- function(x, ...){
   stop(
     "shadow_shift does not know how to deal with data of class ",
-    class(x),
-    " please check your input is more than length one",
+    class_glue(x),
+    ". Please check if your input is more than length one, and that you are using the right function. Perhaps you need to use a scoped variant such as `impute_below_all`?",
     call. = FALSE
   )
 
@@ -99,7 +99,7 @@ shadow_shift.numeric <- function(x,
     return(shifted_values)
 
     # else, when there is more than 1 complete value
-  } else {
+  }
 
   range_dist <- function(x) diff(range(x, na.rm = TRUE))
 
@@ -117,8 +117,6 @@ shadow_shift.numeric <- function(x,
          # add the jitter around the those values that are missing
          yes = x_shift + x_jitter,
          no = x)
-
-  } # close else statement
 
 } # close function
 

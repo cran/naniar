@@ -81,10 +81,14 @@ as_shadow(airquality)
 ## ----bind-shadow, echo = TRUE--------------------------------------------
 
 aq_shadow <- bind_shadow(airquality)
+aq_nab <- nabular(airquality)
 
 library(dplyr)
 
 glimpse(aq_shadow)
+glimpse(aq_nab)
+
+all.equal(aq_shadow, aq_nab)
 
 
 ## ----bind-shadow-pattern-------------------------------------------------
@@ -209,6 +213,4 @@ airquality %>%
   rpart(prop_miss_all ~ ., data = .) %>%
   prp(type = 4, extra = 101, prefix = "Prop. Miss = ")
 
-# library(visdat)
-# vis_miss(messy_airquality)
 

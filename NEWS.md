@@ -1,15 +1,86 @@
+# naniar 0.4.0.0 (2018/09/10) "An Unexpected Meeting"
+
+## New Feature
+
+* Add custom label support for missings and not missings with functions `add_label_missings` and `add_label_shadow()` and `add_any_miss()`. So you can now do `add_label_missings(data, missing = "custom_missing_label", complete = "custom_complete_label")
+* `impute_median()` and scoped variants
+* `any_shade()` returns a logical TRUE or FALSE depending on if there are any `shade` values
+* `nabular()` an alias for `bind_shadow()` to tie the `nabular` term into the work.
+* `is_nabular()` checks if input is nabular.
+
+* `geom_miss_point()` now gains the arguments from `shadow_shift()`/`impute_below()` for altering the amount of `jitter` and proportion below (`prop_below`).
+* Added two new vignettes, "Exploring Imputed Values", and  "Special Missing Values"
+* `miss_var_summary` and `miss_case_summary` now no longer provide the 
+cumulative sum of missingness in the summaries - this summary can be added back
+to the data with the option `add_cumsum = TRUE`. #186
+- Added `gg_miss_upset` to replace workflow of: 
+  ```
+  data %>% 
+    as_shadow_upset() %>%
+    UpSetR::upset()
+  ```
+
+## Major Change
+
+* `recode_shadow` now works! This function allows you to recode your missing
+values into special missing values. These special missing values are stored in
+the shadow part of the dataframe, which ends in `_NA`.
+* implemented `shade` where appropriate throughout naniar, and also added 
+verifiers, `is_shade`, `are_shade`, `which_are_shade`, and removed `which_are_shadow`.
+- `as_shadow`  and `bind_shadow` now return data of class `shadow`. This will 
+feed into `recode_shadow` methods for flexibly adding new types of missing data.
+- Note that in the future `shadow` might be changed to `nabble` or something similar.
+
+## Minor feature
+
+* Functions `add_label_shadow()` and `add_label_missings()` gain arguments so you can only label according to the missingness / shadowy-ness of given variables.
+* new function `which_are_shadow()`, to tell you which values are shadows.
+* new function `long_shadow()`, which converts data in shadow/nabular form into a long format suitable for plotting. Related to [#165](https://github.com/njtierney/naniar/issues/165)
+* Added tests for `miss_scan_count`
+
+## Minor Changes
+
+* `gg_miss_upset` gets a better default presentation by ordering by the largest
+intersections, and also an improved error message when data with only 1 or no
+variables have missing values.
+* `shadow_shift` gains a more informative error message when it doesn't know the class.
+* Changed `common_na_string` to include  escape characters for "?", "*", "." so
+that if they are used in replacement or searching functions they don't return
+the wildcard results from the characters "?", "*", and ".".
+* `miss_case_table` and `miss_var_table` now has final column names `pct_vars`,
+and `pct_cases` instead of `pct_miss` - fixes #178.
+
+## Breaking Changes
+
+* Deprecated old names of the scalar missingness summaries, in favour of a more
+consistent syntax [#171](https://github.com/njtierney/naniar/issues/171). The old the and new are:
+
+|old_names            |new_names            |
+|:--------------------|:--------------------|
+|`miss_case_pct`      |`pct_miss_case`      |
+|`miss_case_prop`     |`prop_miss_case`     |
+|`miss_var_pct`       |`pct_miss_var`       |
+|`miss_var_prop`      |`prop_miss_var`      |
+|`complete_case_pct`  |`pct_complete_case`  |
+|`complete_case_prop` |`prop_complete_case` |
+|`complete_var_pct`   |`pct_complete_var`   |
+|`complete_var_prop`  |`prop_complete_var`  |
+
+These old names will be made defunct in 0.5.0, and removed completely in 0.6.0.
+
+* `impute_below` has changed to be an alias of `shadow_shift` - that is it operates on a single vector. `impute_below_all` operates on all columns in a dataframe (as specified in [#159](https://github.com/njtierney/naniar/issues/159))
+
+## Bug fix
+
+* Ensured that `miss_scan_count` actually `return`'d something.
+* `gg_miss_var(airquality)` now prints the ggplot - a typo meant that this did not print the plot
+
 # naniar 0.3.1 (2018/06/10) "Strawberry's Adventure"
 
 ## Minor Change
 
 This is a patch release that removes `tidyselect` from the package Imports, as
 it is unnecessary. Fixes [#174](https://github.com/njtierney/naniar/issues/174)
-
-# naniar 0.3.90000 (2018/06/07)
-
-## New Features
-
-## Minor Changes
 
 # naniar 0.3.0 (2018/06/06) "Digory and his Uncle Are Both in Trouble"
 =========================

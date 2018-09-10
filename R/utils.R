@@ -104,17 +104,35 @@ test_if_dataframe <- function(x){
     }
 }
 
-# are there any columns that contain a shadow column?
-any_shadow <- function(x){
-  any(grepl("_NA$",colnames(x)))
+#' Test if input is a shadow
+#'
+#' @param x object
+#'
+#' @return an error if input (x) is a shadow
+#'
+#' @examples
+#' \dontrun{
+#' # success
+#' aq_shadow <- bind_shadow(airquality)
+#' test_if_shadow(aq_shadow)
+#' #fail
+#' test_if_shadow(airquality)
+#' }
+#'
+test_if_shadow <- function(x){
+  # test for dataframe
+  if (!is_shadow(x)) {
+    stop("variable must be shadow variable, use as_shadow or bind_shadow",
+         call. = FALSE)
+  }
 }
 
-# # test if there are shadow columns?
-test_if_any_shadow <- function(x){
+test_if_any_shade <- function(x){
   # test for dataframe
   test_if_dataframe(x)
-  if (!any_shadow(x)) {
-    stop("Input must contain a shadow column ending in _NA", call. = FALSE)
+  if (!any_shade(x)) {
+    stop("Input must contain shade column. See ?shade, ?shade and ?bind_shadow",
+         call. = FALSE)
     }
 }
 
@@ -166,4 +184,41 @@ add_span_counter <- function(data, span_size) {
                 span_counter = rep(x = 1:ceiling(nrow(data)),
                                    each = span_size,
                                    length.out = nrow(data)))
+}
+
+#' check the levels of many things
+#'
+#' this function is used internally to check what the levels are of the dataframe.
+#'
+#' @param x data.frame, usually
+#'
+#' @return a list containing the levels of everything
+what_levels <- function(x) purrr::map(x, levels)
+
+# utility function to convert bare name to character
+bare_to_chr <- function(...){
+  ps <- rlang::exprs(...)
+
+  exprs_text <- function(ps) {
+    paste0(purrr::map_chr(ps, rlang::expr_text))
+  }
+
+  exprs_text(ps)
+
+}
+
+quo_to_shade <- function(...){
+
+  quo_vars <- rlang::quos(...)
+
+  shadow_chr <- bare_to_chr(!!!quo_vars) %>% paste0("_NA")
+
+  shadow_vars <- rlang::syms(shadow_chr)
+
+  return(shadow_vars)
+
+}
+
+class_glue <- function(x){
+  class(x) %>% glue::glue_collapse(sep = ", ", last = ", or ")
 }

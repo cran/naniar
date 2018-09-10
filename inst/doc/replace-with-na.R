@@ -46,6 +46,15 @@ df %>%
   replace_with_na_all(condition = ~.x %in% na_strings)
 
 
+## ----print-common-na-numbers-strings-------------------------------------
+common_na_numbers
+common_na_strings
+
+## ----using-common-na-strings---------------------------------------------
+df %>%
+  replace_with_na_all(condition = ~.x %in% common_na_strings)
+
+
 ## ----replace-with-na-at-ex1----------------------------------------------
 
 df %>% 
