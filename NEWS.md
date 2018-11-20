@@ -1,4 +1,11 @@
-# naniar 0.4.0.0 (2018/09/10) "An Unexpected Meeting"
+# naniar 0.4.1 (2018/11/20) "Aslan's Song"
+
+## Minor Change
+
+* Fixes to `new_tibble` [#220](https://github.com/njtierney/naniar/pull/220) - Thanks to [Kirill Müller](https://github.com/krlmlr).
+* Refactoring the capture of arguments from `rlang` [#218](https://github.com/njtierney/naniar/pull/218) - thanks for [Lionel Henry](https://github.com/lionel-).
+
+# naniar 0.4.0 (2018/09/10) "An Unexpected Meeting"
 
 ## New Feature
 
