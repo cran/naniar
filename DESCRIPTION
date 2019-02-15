@@ -1,7 +1,7 @@
 Package: naniar
 Type: Package
 Title: Data Structures, Summaries, and Visualisations for Missing Data
-Version: 0.4.1
+Version: 0.4.2
 Authors@R: c(
   person("Nicholas", "Tierney", 
          role = c("aut", "cre"),
@@ -37,7 +37,7 @@ LazyData: TRUE
 ByteCompile: TRUE
 Suggests: knitr, rmarkdown, testthat, rpart, rpart.plot, covr,
         gridExtra, wakefield, vdiffr, here, simputation, imputeTS,
-        gdtools, Hmisc
+        gdtools, Hmisc, spelling
 VignetteBuilder: knitr
 Depends: R (>= 3.1.2)
 Imports: dplyr, ggplot2, purrr, tidyr, tibble, magrittr, stats, visdat,
@@ -45,10 +45,10 @@ Imports: dplyr, ggplot2, purrr, tidyr, tibble, magrittr, stats, visdat,
 Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
         'data-common-na-numbers.R' 'data-common-na-strings.R'
         'data-oceanbuoys.R' 'data-pedestrian.R' 'data-riskfactors.R'
-        'legend-draw.R' 'geom-miss-point.R' 'gg-miss-case-cumsum.R'
-        'gg-miss-case.R' 'gg-miss-fct.R' 'gg-miss-span.R'
-        'gg-miss-upset.R' 'gg-miss-var-cumsum.R' 'gg-miss-var.R'
-        'gg-miss-which.R' 'helpers.R' 'impute-median.R'
+        'legend-draw.R' 'geom-miss-point.R' 'geom2plotly.R'
+        'gg-miss-case-cumsum.R' 'gg-miss-case.R' 'gg-miss-fct.R'
+        'gg-miss-span.R' 'gg-miss-upset.R' 'gg-miss-var-cumsum.R'
+        'gg-miss-var.R' 'gg-miss-which.R' 'helpers.R' 'impute-median.R'
         'impute_below.R' 'impute_mean.R' 'label-miss.R'
         'miss-complete-x-pct-prop.R' 'miss-prop-pct-summary.R'
         'miss-scan-count.R' 'miss-x-cumsum.R' 'miss-x-run.R'
@@ -64,8 +64,9 @@ URL: https://github.com/njtierney/naniar
 BugReports: https://github.com/njtierney/naniar/issues
 Encoding: UTF-8
 RoxygenNote: 6.1.1
+Language: en-US
 NeedsCompilation: no
-Packaged: 2018-11-20 02:57:58 UTC; ntie0001
+Packaged: 2019-02-15 02:56:55 UTC; ntie0001
 Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Di Cook [aut] (<https://orcid.org/0000-0002-3813-7155>),
   Miles McBain [aut] (<https://orcid.org/0000-0003-2865-2548>),
@@ -75,4 +76,4 @@ Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Luke Smith [ctb]
 Maintainer: Nicholas Tierney <nicholas.tierney@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-11-20 08:20:09 UTC
+Date/Publication: 2019-02-15 14:30:03 UTC
