@@ -1,7 +1,7 @@
 Package: naniar
 Type: Package
 Title: Data Structures, Summaries, and Visualisations for Missing Data
-Version: 0.4.2
+Version: 0.5.0
 Authors@R: c(
   person("Nicholas", "Tierney", 
          role = c("aut", "cre"),
@@ -32,12 +32,13 @@ Description: Missing values are ubiquitous in data and need to be explored and
     and functions that facilitate the plotting of missing values and examination 
     of imputations. This allows missing data dependencies to be explored with 
     minimal deviation from the common work patterns of 'ggplot2' and tidy data. 
+    The work is fully discussed at Tierney & Cook (2018) <arXiv:1809.02264>.
 License: MIT + file LICENSE
 LazyData: TRUE
 ByteCompile: TRUE
-Suggests: knitr, rmarkdown, testthat, rpart, rpart.plot, covr,
-        gridExtra, wakefield, vdiffr, here, simputation, imputeTS,
-        gdtools, Hmisc, spelling
+Suggests: knitr, rmarkdown, testthat (>= 2.1.0), rpart, rpart.plot,
+        covr, gridExtra, wakefield, vdiffr, here, simputation,
+        imputeTS, gdtools, Hmisc, spelling
 VignetteBuilder: knitr
 Depends: R (>= 3.1.2)
 Imports: dplyr, ggplot2, purrr, tidyr, tibble, magrittr, stats, visdat,
@@ -63,10 +64,10 @@ Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
 URL: https://github.com/njtierney/naniar
 BugReports: https://github.com/njtierney/naniar/issues
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Language: en-US
 NeedsCompilation: no
-Packaged: 2019-02-15 02:56:55 UTC; ntie0001
+Packaged: 2020-02-26 22:29:26 UTC; ntie0001
 Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Di Cook [aut] (<https://orcid.org/0000-0002-3813-7155>),
   Miles McBain [aut] (<https://orcid.org/0000-0003-2865-2548>),
@@ -76,4 +77,4 @@ Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Luke Smith [ctb]
 Maintainer: Nicholas Tierney <nicholas.tierney@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-02-15 14:30:03 UTC
+Date/Publication: 2020-02-28 07:20:08 UTC

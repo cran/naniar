@@ -1,10 +1,10 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----demonstrate-impute-below--------------------------------------------
+## ----demonstrate-impute-below-------------------------------------------------
 library(dplyr)
 library(naniar)
 
@@ -13,7 +13,7 @@ airquality %>%
   select(Ozone, Solar.R) %>%
   head()
 
-## ----impute-vector, echo = TRUE------------------------------------------
+## ----impute-vector, echo = TRUE-----------------------------------------------
 
 impute_mean(oceanbuoys$air_temp_c) %>% head()
 
@@ -24,7 +24,7 @@ impute_mean_if(oceanbuoys, .predicate = is.integer) %>% head()
 impute_mean_all(oceanbuoys) %>% head()
 
 
-## ----bind-impute-label-example, echo = TRUE------------------------------
+## ----bind-impute-label-example, echo = TRUE-----------------------------------
 
 library(simputation)
 ocean_imp <- oceanbuoys %>%
@@ -35,7 +35,7 @@ ocean_imp <- oceanbuoys %>%
   add_label_shadow()
 
 
-## ----ocean-imp-air-temp-humidity-----------------------------------------
+## ----ocean-imp-air-temp-humidity----------------------------------------------
 library(ggplot2)
 ggplot(ocean_imp,
        aes(x = air_temp_c,
@@ -62,13 +62,13 @@ ggplot(ocean_imp,
   theme(legend.position = "bottom")
 
 
-## ----summarise-imputations-----------------------------------------------
+## ----summarise-imputations----------------------------------------------------
 ocean_imp %>%
   group_by(any_missing) %>%
   summarise_at(.vars = vars(air_temp_c),
                .funs = funs(min, mean, median, max, .args = list(na.rm = TRUE)))
 
-## ----imp-add-year--------------------------------------------------------
+## ----imp-add-year-------------------------------------------------------------
 ocean_imp_yr <- oceanbuoys %>%
   bind_shadow() %>%
   impute_lm(air_temp_c ~ wind_ew + wind_ns + year + longitude + latitude) %>%
@@ -76,7 +76,7 @@ ocean_imp_yr <- oceanbuoys %>%
   impute_lm(sea_temp_c ~  wind_ew + wind_ns + year + longitude + latitude) %>%
   add_label_shadow()
 
-## ----ggplot-air-temp-humidity--------------------------------------------
+## ----ggplot-air-temp-humidity-------------------------------------------------
 ggplot(ocean_imp_yr,
        aes(x = air_temp_c,
            y = humidity,
@@ -85,7 +85,7 @@ ggplot(ocean_imp_yr,
   scale_color_brewer(palette = "Dark2") +
   theme(legend.position = "bottom")
 
-## ----Hmisc-aregimpute----------------------------------------------------
+## ----Hmisc-aregimpute---------------------------------------------------------
 
 library(Hmisc)
 
@@ -96,7 +96,7 @@ aq_imp <- aregImpute(~Ozone + Temp + Wind + Solar.R,
 
 aq_imp
 
-## ----Hmisc-aregimpute-insert---------------------------------------------
+## ----Hmisc-aregimpute-insert--------------------------------------------------
 
 # nabular form!
 aq_nab <- nabular(airquality) %>%  add_label_shadow()
@@ -106,7 +106,7 @@ aq_nab$Ozone[is.na(aq_nab$Ozone)] <- aq_imp$imputed$Ozone
 aq_nab$Solar.R[is.na(aq_nab$Solar.R)] <- aq_imp$imputed$Solar.R
 
 
-## ----hmisc-aregimpute-vis------------------------------------------------
+## ----hmisc-aregimpute-vis-----------------------------------------------------
 
 ggplot(aq_nab,
        aes(x = Ozone,

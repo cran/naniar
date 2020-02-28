@@ -53,7 +53,7 @@ miss_var_summary.default <- function(data,
                                      add_cumsum = FALSE,
                                      ...) {
 
-  res <- purrr::map_df(data, n_miss) %>%
+  res <- purrr::map_dfc(data, n_miss) %>%
     tidyr::gather(key = "variable", value = "n_miss") %>%
     dplyr::mutate(pct_miss = (n_miss / nrow(data) * 100))
 
@@ -187,7 +187,6 @@ miss_case_summary.grouped_df <- function(data,
 #'
 #' @param data a dataframe
 #' @param order whether or not to order the result by n_miss
-#' @param ... extra arguments
 #'
 #' @return a tibble of missing data summaries
 #'
@@ -217,7 +216,7 @@ miss_summary <- function(data, order = TRUE){
   test_if_dataframe(data)
 
   return(
-    tibble::data_frame(
+    tibble::tibble(
         miss_df_prop = prop_miss(data),
         miss_var_prop = prop_miss_var(data),
         miss_case_prop = prop_miss_case(data),

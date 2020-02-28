@@ -34,7 +34,7 @@ rlang::are_na
 group_by_fun <- function(data,.fun, ...){
   tidyr::nest(data) %>%
     dplyr::mutate(data = purrr::map(data, .fun, ...)) %>%
-    tidyr::unnest()
+    tidyr::unnest(cols = c(data))
 }
 
 
@@ -104,29 +104,6 @@ test_if_dataframe <- function(x){
     }
 }
 
-#' Test if input is a shadow
-#'
-#' @param x object
-#'
-#' @return an error if input (x) is a shadow
-#'
-#' @examples
-#' \dontrun{
-#' # success
-#' aq_shadow <- bind_shadow(airquality)
-#' test_if_shadow(aq_shadow)
-#' #fail
-#' test_if_shadow(airquality)
-#' }
-#'
-test_if_shadow <- function(x){
-  # test for dataframe
-  if (!is_shadow(x)) {
-    stop("variable must be shadow variable, use as_shadow or bind_shadow",
-         call. = FALSE)
-  }
-}
-
 test_if_any_shade <- function(x){
   # test for dataframe
   test_if_dataframe(x)
@@ -146,24 +123,6 @@ any_row_miss <- function(x){
   apply(data.frame(x), MARGIN = 1, FUN = function(x) anyNA(x))
 }
 
-#' Helper function to determine whether all rows are missing
-#'
-#' @param x a vector
-#'
-#' @return logical vector
-all_row_miss <- function(x){
-  apply(data.frame(x), MARGIN = 1, FUN = function(x) all(is.na(x)))
-}
-
-#' Helper function to determine whether all rows are complete
-#'
-#' @param x a vector
-#'
-#' @return logical vector
-all_row_complete <- function(x){
-  apply(data.frame(x), MARGIN = 1, FUN = function(x) all(!is.na(x)))
-}
-
 #' Add a counter variable for a span of dataframe
 #'
 #' Adds a variable, `span_counter` to a dataframe. Used internally to facilitate
@@ -176,7 +135,7 @@ all_row_complete <- function(x){
 #'
 #' @examples
 #' \dontrun{
-#' add_span_counter(pedestrian, span_size = 100)
+#' # add_span_counter(pedestrian, span_size = 100)
 #' }
 add_span_counter <- function(data, span_size) {
 
@@ -216,4 +175,28 @@ quo_to_shade <- function(...){
 
 class_glue <- function(x){
   class(x) %>% glue::glue_collapse(sep = ", ", last = ", or ")
+}
+
+diag_na <- function(size = 5){
+
+  dna <- diag(x = NA,
+              nrow = size,
+              ncol = size)
+  suppressMessages(
+  tibble::as_tibble(dna,
+                    .name_repair = "unique")) %>%
+    set_names(paste0("x",seq_len(ncol(.))))
+}
+
+coerce_fct_na_explicit <- function(x){
+  if (is.factor(x) & anyNA(x)) {
+    forcats::fct_explicit_na(x, na_level = "NA")
+  }
+}
+
+skip_on_gh_actions <- function() {
+  if (!identical(Sys.getenv("GITHUB_ACTIONS"), "true")) {
+    return(invisible(TRUE))
+  }
+  testthat::skip("On GitHub Actions")
 }

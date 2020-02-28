@@ -1,17 +1,17 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----show-shadow---------------------------------------------------------
+## ----show-shadow--------------------------------------------------------------
 library(naniar)
 as_shadow(oceanbuoys)
 
-## ----show-bind-shadow----------------------------------------------------
+## ----show-bind-shadow---------------------------------------------------------
 bind_shadow(oceanbuoys)
 
-## ----create-toy-dataset--------------------------------------------------
+## ----create-toy-dataset-------------------------------------------------------
 df <- tibble::tribble(
 ~wind, ~temp,
 -99,    45,
@@ -21,17 +21,17 @@ df <- tibble::tribble(
 
 df
 
-## ----create-nab----------------------------------------------------------
+## ----create-nab---------------------------------------------------------------
 
 dfs <- bind_shadow(df)
 
 dfs
 
-## ----example-recode-shadow-----------------------------------------------
+## ----example-recode-shadow----------------------------------------------------
 dfs_recode <- dfs %>% 
   recode_shadow(wind = .where(wind == -99 ~ "broken_machine"))
 
-## ----show-additional-factor-levels---------------------------------------
+## ----show-additional-factor-levels--------------------------------------------
 levels(dfs_recode$wind_NA)
 levels(dfs_recode$temp_NA)
 

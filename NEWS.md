@@ -1,9 +1,40 @@
-# naniar 0.4.2 (2018/12/27)
+# naniar 0.5.0 (2020/02/20) "The End of this Story and the Beginning of all of the Others"
+
+## Breaking Changes
+
+- The following functions related to calculating the proportion/percentage of missingness were made Defunct and will no longer work: 
+  - `miss_var_prop()`
+  - `complete_var_prop()`
+  - `miss_var_pct()`
+  - `complete_var_pct()`
+  - `miss_case_prop()`
+  - `complete_case_prop()`
+  - `miss_case_pct()`
+  - `complete_case_pct()`
+
+Instead use: `prop_miss_var()`, `prop_complete_var()`, `pct_miss_var()`, `pct_complete_var()`, `prop_miss_case()`, `prop_complete_case()`, `pct_miss_case()`, `pct_complete_case()`. (see [242](https://github.com/njtierney/naniar/issues/242))
+
+- `replace_to_na()` was made defunct, please use `replace_with_na()` instead. (see [242](https://github.com/njtierney/naniar/issues/242))
+
+## Minor changes
+
+- `miss_var_cumsum` and `miss_case_cumsum` are now exported
+- use `map_dfc` instead of `map_df`
+- Fix various extra warnings and improve test coverage
+
+## Bug Fixes
+
+- Address bug where the number of missings in a row is not calculated properly - see [238](https://github.com/njtierney/naniar/issues/238) and [232](https://github.com/njtierney/naniar/issues/232). The solution involved using `rowSums(is.na(x))`, which was 3 times faster.
+- Resolve bug in `gg_miss_fct()` where warning is given for non explicit NA values - see [241](https://github.com/njtierney/naniar/issues/241).
+- skip vdiffr tests on github actions
+- use `tibble()` not `data_frame()`
+
+# naniar 0.4.2 (2019/02/15) "The Planting of The Tree"
 
 ## Improvements
 
 * The `geom_miss_point()` **ggplot2** layer can now be converted into an interactive web-based version by the `ggplotly()` function in the **plotly** package. In order for this to work, **naniar** now exports the `geom2trace.GeomMissPoint()` function (users should never need to call `geom2trace.GeomMissPoint()` directly -- `ggplotly()` calls it for you).
-* adds WORDLIST for spelling thanks to `usethis::use_spell_check()`
+* adds `WORDLIST` for spelling thanks to `usethis::use_spell_check()`
 * fix documentation `@seealso` bug ([#228](https://github.com/njtierney/naniar/issues/228)) (@sfirke)
 
 ## Dependency fixes
@@ -229,8 +260,8 @@ row, and the proportion of complete obserations in a row
 - `add_miss_cluster` is a new function that calculates a cluster of missingness 
   for each row, using `hclust`. This can be useful in exploratory modelling
   of missingness, similar to 
-  [Tierney et al 2015](http://bmjopen.bmj.com/content/5/6/e007450). and 
-  [Barnett et al. 2017](http://bmjopen.bmj.com/content/7/10/e017284)
+  Tierney et al 2015: "doi: 10.1136/bmjopen-2014-007450" and 
+  Barnett et al. 2017: "doi: 10.1136/bmjopen-2017-017284"
 
 - Now exported `where_na` - a function that returns the positions of NA values. 
   For a dataframe it returns a matrix of row and col positions of NAs, and for 
@@ -517,7 +548,7 @@ helps us make it easier to work with missing data
 - `add_n_miss` and `add_prop_miss` are helpers that add columns to a dataframe
 containing the number and proportion of missing values. An example has been
 provided to use decision trees to explore missing data structure as in 
-[Tierney et al](bmjopen.bmj.com/content/5/6/e007450.full)
+ "doi: 10.1136/bmjopen-2014-007450"
 
 - `geom_miss_point()` now supports transparency, thanks to @seasmith (Luke Smith)
  

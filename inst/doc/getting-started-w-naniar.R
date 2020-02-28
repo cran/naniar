@@ -1,28 +1,28 @@
-## ----knitr-setup, include = FALSE----------------------------------------
+## ----knitr-setup, include = FALSE---------------------------------------------
 knitr::opts_chunk$set(fig.align = "center",
                       fig.width = 5,
                       fig.height = 4,
                       dpi = 100)
 
 
-## ----vis-dat, echo = TRUE------------------------------------------------
+## ----vis-dat, echo = TRUE-----------------------------------------------------
 library(visdat)
 vis_dat(airquality)
 
 
-## ----vis-miss-cluster-vanilla--------------------------------------------
+## ----vis-miss-cluster-vanilla-------------------------------------------------
 
 vis_miss(airquality)
 
 
-## ----example-geom-point, echo = TRUE, fig.width = 5, fig.height=3--------
+## ----example-geom-point, echo = TRUE, fig.width = 5, fig.height=3-------------
 library(ggplot2)
 ggplot(airquality, 
        aes(x = Solar.R, 
            y = Ozone)) + 
   geom_point()
 
-## ----geom-miss-point, echo = TRUE, out.width = "50%", fig.show='hold'----
+## ----geom-miss-point, echo = TRUE, out.width = "50%", fig.show='hold'---------
 
 ggplot(airquality, 
        aes(x = Solar.R, 
@@ -37,7 +37,7 @@ ggplot(airquality,
   geom_miss_point()
 
 
-## ----ggmissing-facet, echo = TRUE, out.width = "70%"---------------------
+## ----ggmissing-facet, echo = TRUE, out.width = "70%"--------------------------
 
 ggplot(airquality, 
        aes(x = Solar.R, 
@@ -46,7 +46,7 @@ ggplot(airquality,
   facet_wrap(~Month)
 
 
-## ----ggmissing-theme, echo = TRUE, out.width = "70%"---------------------
+## ----ggmissing-theme, echo = TRUE, out.width = "70%"--------------------------
 
 ggplot(airquality, 
        aes(x = Solar.R, 
@@ -56,29 +56,29 @@ ggplot(airquality,
   theme_dark()
 
 
-## ----gg-miss-var---------------------------------------------------------
+## ----gg-miss-var--------------------------------------------------------------
 
 gg_miss_var(airquality)
 
 
-## ----gg-miss-var-theme---------------------------------------------------
+## ----gg-miss-var-theme--------------------------------------------------------
 gg_miss_var(airquality) + theme_bw() 
 
 gg_miss_var(airquality) + labs(y = "Look at all the missing ones")
 
 
-## ----gg-miss-var-facet---------------------------------------------------
+## ----gg-miss-var-facet--------------------------------------------------------
 gg_miss_var(airquality, facet = Month)
 
-## ----mds-fig, out.width = "800px", echo = F------------------------------
+## ----mds-fig, out.width = "800px", echo = F-----------------------------------
 knitr::include_graphics("missingness-data-structures.png")
 
-## ----as-shadow-----------------------------------------------------------
+## ----as-shadow----------------------------------------------------------------
 
 as_shadow(airquality)
 
 
-## ----bind-shadow, echo = TRUE--------------------------------------------
+## ----bind-shadow, echo = TRUE-------------------------------------------------
 
 aq_shadow <- bind_shadow(airquality)
 aq_nab <- nabular(airquality)
@@ -91,7 +91,7 @@ glimpse(aq_nab)
 all.equal(aq_shadow, aq_nab)
 
 
-## ----bind-shadow-pattern-------------------------------------------------
+## ----bind-shadow-pattern------------------------------------------------------
 
 airquality %>%
   bind_shadow() %>%
@@ -100,7 +100,7 @@ airquality %>%
                .funs = c("mean", "sd", "var", "min", "max"),
                na.rm = TRUE)
 
-## ----shadow-plot, echo = TRUE, out.width = "60%"-------------------------
+## ----shadow-plot, echo = TRUE, out.width = "60%"------------------------------
 
 ggplot(aq_shadow,
        aes(x = Temp,
@@ -108,7 +108,7 @@ ggplot(aq_shadow,
   geom_density()
 
 
-## ----simpute-invisible, echo = TRUE, fig.height = 3----------------------
+## ----simpute-invisible, echo = TRUE, fig.height = 3---------------------------
 
 library(simputation)
 library(dplyr)
@@ -120,7 +120,7 @@ airquality %>%
   geom_point()
   
 
-## ----simpute-visible, echo = TRUE, fig.height = 3------------------------
+## ----simpute-visible, echo = TRUE, fig.height = 3-----------------------------
 
 aq_shadow %>%
   impute_lm(Ozone ~ Temp + Wind) %>%
@@ -130,7 +130,7 @@ aq_shadow %>%
   geom_point()
   
 
-## ----helpers-n-miss, echo = TRUE-----------------------------------------
+## ----helpers-n-miss, echo = TRUE----------------------------------------------
 
 dplyr::n_distinct(airquality)
 dplyr::n_distinct(airquality$Ozone)
@@ -142,53 +142,51 @@ n_complete(airquality)
 n_complete(airquality$Ozone)
 
 
-## ----miss-case-prop------------------------------------------------------
-miss_case_prop(airquality)
-miss_case_pct(airquality)
+## ----prop-miss-case-----------------------------------------------------------
+prop_miss_case(airquality)
+pct_miss_case(airquality)
 
-## ----miss-case-summary---------------------------------------------------
+## ----miss-case-summary--------------------------------------------------------
 
 miss_case_summary(airquality)
 
 
-## ----miss-case-table-----------------------------------------------------
+## ----miss-case-table----------------------------------------------------------
 
 miss_case_table(airquality)
 
 
-## ----miss-var-prop-------------------------------------------------------
+## ----prop-miss-var------------------------------------------------------------
+prop_miss_var(airquality)
+pct_miss_var(airquality)
 
-miss_var_prop(airquality)
-miss_var_pct(airquality)
-
-
-## ----miss-var-summary----------------------------------------------------
+## ----miss-var-summary---------------------------------------------------------
 
 miss_var_summary(airquality)
 
 
-## ----miss-var-table------------------------------------------------------
+## ----miss-var-table-----------------------------------------------------------
 
 miss_var_table(airquality)
 
 
-## ----miss-var-run--------------------------------------------------------
+## ----miss-var-run-------------------------------------------------------------
 miss_var_run(pedestrian,
              hourly_counts)
 
-## ----ped-miss-var-span---------------------------------------------------
+## ----ped-miss-var-span--------------------------------------------------------
 
 miss_var_span(pedestrian,
               hourly_counts,
               span_every = 100)
 
 
-## ----ped-miss-var-sum----------------------------------------------------
+## ----ped-miss-var-sum---------------------------------------------------------
 
 pedestrian %>% miss_var_summary()
 
 
-## ----ped-group-by-miss-var-sum-------------------------------------------
+## ----ped-group-by-miss-var-sum------------------------------------------------
 
 pedestrian %>%
  group_by(month) %>%
@@ -196,14 +194,14 @@ pedestrian %>%
  filter(variable == "hourly_counts")
 
 
-## ----add-prop-miss, echo = TRUE------------------------------------------
+## ----add-prop-miss, echo = TRUE-----------------------------------------------
 
 airquality %>%
   add_prop_miss() %>%
   head()
 
 
-## ----rpart-miss, echo = TRUE---------------------------------------------
+## ----rpart-miss, echo = TRUE--------------------------------------------------
 
 library(rpart)
 library(rpart.plot)
