@@ -114,6 +114,12 @@ riskfactors %>%
   miss_var_summary()
 
 
+## -----------------------------------------------------------------------------
+gg_miss_fct(oceanbuoys, year)
+# to load who data
+library(tidyr)
+gg_miss_fct(who, year)
+
 ## ----gg-miss-span-------------------------------------------------------------
 
 # data method

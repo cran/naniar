@@ -12,7 +12,7 @@
 
 <meta name="author" content="Nicholas Tierney" />
 
-<meta name="date" content="2020-04-30" />
+<meta name="date" content="2020-06-29" />
 
 <title>Exploring Imputed Values</title>
 
@@ -26,6 +26,22 @@ document.addEventListener('DOMContentLoaded', function(e) {
     if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
     a = h.attributes;
     while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
   }
 });
 </script>
@@ -315,7 +331,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Exploring Imputed Values</h1>
 <h4 class="author">Nicholas Tierney</h4>
-<h4 class="date">2020-04-30</h4>
+<h4 class="date">2020-06-29</h4>
 
 
 
@@ -449,7 +465,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">group_by</span>(any_missing) <span class="op">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">summarise_at</span>(<span class="dt">.vars =</span> <span class="kw">vars</span>(air_temp_c),</span>
 <span id="cb6-4"><a href="#cb6-4"></a>               <span class="dt">.funs =</span> <span class="kw">funs</span>(min, mean, median, max, <span class="dt">.args =</span> <span class="kw">list</span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; Warning: funs() is soft deprecated as of dplyr 0.8.0</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; Warning: `funs()` is deprecated as of dplyr 0.8.0.</span></span>
 <span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; Please use a list of either functions or lambdas: </span></span>
 <span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt; </span></span>
 <span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;   # Simple named list: </span></span>
@@ -460,12 +476,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt; </span></span>
 <span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt;   # Using lambdas</span></span>
 <span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; This warning is displayed once per session.</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; # A tibble: 2 x 5</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt;   any_missing   min  mean median   max</span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; 1 Missing      21.4  23.9   24.4  25.2</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; 2 Not Missing  22.1  25.3   25.8  28.5</span></span></code></pre></div>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; This warning is displayed once every 8 hours.</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; # A tibble: 2 x 5</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;   any_missing   min  mean median   max</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; 1 Missing      21.4  23.9   24.4  25.2</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; 2 Not Missing  22.1  25.3   25.8  28.5</span></span></code></pre></div>
 </div>
 </div>
 </div>
