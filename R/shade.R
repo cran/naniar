@@ -1,5 +1,3 @@
-# use new_shade
-
 #' Create a new shade factor
 #'
 #' @param x a factor to convert into a `shade` object
@@ -16,7 +14,6 @@ new_shade <- function(x, extra_levels = NULL){
   structure(x,
             class = c("shade", "factor"))
 }
-
 
 #' Detect if this is a shade
 #'
@@ -55,13 +52,11 @@ are_shade <- function(x){
     purrr::map_lgl(~any(grepl("shade",.)))
 }
 
+#' @export
+#' @rdname is_shade
 any_shade <- function(x){
-  # any(grepl("_NA$",colnames(x)))
   any(are_shade(x))
 }
-
-
-
 
 #' Create new levels of missing
 #'
@@ -72,7 +67,7 @@ any_shade <- function(x){
 #'
 #' @param x a vector
 #' @param ... additional levels of missing to add
-#' @param extra_levels is a
+#' @param extra_levels extra levels you might to specify for the factor.
 #'
 #' @examples
 #' df <- tibble::tribble(
@@ -84,11 +79,7 @@ any_shade <- function(x){
 #'
 #' shade(df$wind)
 #'
-#' shade(df$wind,
-#'       inst_fail = -99)
-#'
-#' shade(df$wind,
-#'       inst_fail = 100)
+#' shade(df$wind, inst_fail = -99)
 #'
 #' @export
 shade <- function(x, ..., extra_levels = NULL){
@@ -143,8 +134,25 @@ shade <- function(x, ..., extra_levels = NULL){
   new_shade(x, extra_levels)
 }
 
+
+#' Which variables are shades?
+#'
+#' This function tells us which variables contain shade information
+#'
+#' @param .tbl a data.frame or tbl
+#'
+#' @return numeric - which column numbers contain shade information
+#'
+#' @examples
+#'
+#' df_shadow <- bind_shadow(airquality)
+#'
+#' which_are_shade(df_shadow)
+#'
 #' @export
-#' @rdname is_shade
-any_shade <- function(x){
-  any(are_shade(x))
+which_are_shade <- function(.tbl){
+  test_if_null(.tbl)
+  test_if_dataframe(.tbl)
+  which(are_shade(.tbl))
 }
+

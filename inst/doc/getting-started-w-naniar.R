@@ -108,6 +108,22 @@ ggplot(aq_shadow,
   geom_density()
 
 
+## ----temp-humidity-explore----------------------------------------------------
+# what if we explore the value of air temperature and humidity based on
+# the missingness of each
+  oceanbuoys %>%
+    bind_shadow() %>%
+    ggplot(aes(x = air_temp_c,
+               fill = humidity_NA)) +
+        geom_histogram()
+
+  oceanbuoys %>%
+    bind_shadow() %>%
+    ggplot(aes(x = humidity,
+               fill = air_temp_c_NA)) +
+        geom_histogram()
+
+
 ## ----simpute-invisible, echo = TRUE, fig.height = 3---------------------------
 
 library(simputation)
