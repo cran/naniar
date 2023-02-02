@@ -86,7 +86,10 @@ df %>%
 df_1 <- df %>% replace_with_na_all(condition = ~.x == -99)
 df_1
 
-df_2 <- df %>% dplyr::na_if(-99)
+df_2 <- df %>% dplyr::mutate(
+  x = dplyr::na_if(x, -99),
+  y = dplyr::na_if(z, -99)
+)
 df_2
 
 # are they the same?

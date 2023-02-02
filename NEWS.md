@@ -1,3 +1,33 @@
+# naniar 1.0.0
+
+Version 1.0.0 of naniar is to signify that this release is associated with
+the publication of the associated JSS paper, <doi:10.18637/jss.v105.i07>.
+There are also a few small changes that have been implemented in this release, 
+which are described below.
+
+There is still a lot to do in naniar, and this release does not signify that
+there are no changes upcoming, more so to establish that this is a stable
+release, and that any changes upcoming will go through a more formal deprecation
+process and so on.
+
+## New
+
+- The DOI in the CITATION is for a new JSS publication that will be registered 
+  after publication on CRAN.
+- Replaced `tidyr::gather` with `tidyr::pivot_longer` - resolves #301
+- added `set_n_miss` and `set_prop_miss` functions - resolved #298
+
+## Bug Fixes
+
+- Fix bug in `gg_miss_var()` where a warning appears to due change in how to 
+remove legend [#288](https://github.com/njtierney/naniar/issues/288).
+
+## Misc
+
+- Removed gdtools from naniar as no longer needed [302](https://github.com/njtierney/naniar/issues/302).
+- added imports, `vctrs` and `cli` - which are both free dependencies as they
+  are used within the already used tidyverse already.
+
 # naniar 0.6.1 (2021/05/13) "Incandescent lightbulbs killed the Arc lamps"
 
 ## New features

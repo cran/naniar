@@ -1,7 +1,7 @@
 Package: naniar
 Type: Package
 Title: Data Structures, Summaries, and Visualisations for Missing Data
-Version: 0.6.1
+Version: 1.0.0
 Authors@R: c(
   person("Nicholas", "Tierney", 
          role = c("aut", "cre"),
@@ -32,21 +32,23 @@ Authors@R: c(
          comment = c(ORCID = "https://orcid.org/0000-0002-3948-3914"))
   )
 Description: Missing values are ubiquitous in data and need to be explored and
-    handled in the initial stages of analysis. 'naniar' provides data structures 
-    and functions that facilitate the plotting of missing values and examination 
-    of imputations. This allows missing data dependencies to be explored with 
-    minimal deviation from the common work patterns of 'ggplot2' and tidy data. 
-    The work is fully discussed at Tierney & Cook (2018) <arXiv:1809.02264>.
+    handled in the initial stages of analysis. 'naniar' provides data 
+    structures and functions that facilitate the plotting of missing values and 
+    examination of imputations. This allows missing data dependencies to be 
+    explored with minimal deviation from the common work patterns of 'ggplot2' 
+    and tidy data. The work is fully discussed at Tierney & Cook (2023) 
+    <doi:10.18637/jss.v105.i07>.
 License: MIT + file LICENSE
 LazyData: TRUE
 ByteCompile: TRUE
-Suggests: knitr, rmarkdown, testthat (>= 2.1.0), rpart, rpart.plot,
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0), rpart, rpart.plot,
         covr, gridExtra, wakefield, vdiffr, here, simputation,
-        imputeTS, gdtools, Hmisc, spelling
+        imputeTS, Hmisc, spelling
 VignetteBuilder: knitr
 Depends: R (>= 3.1.2)
 Imports: dplyr, ggplot2, purrr, tidyr, tibble (>= 2.0.0), norm,
-        magrittr, stats, visdat, rlang, forcats, viridis, glue, UpSetR
+        magrittr, stats, visdat, rlang, forcats, viridis, glue, UpSetR,
+        cli, vctrs
 Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
         'data-common-na-numbers.R' 'data-common-na-strings.R'
         'data-oceanbuoys.R' 'data-pedestrian.R' 'data-riskfactors.R'
@@ -62,16 +64,17 @@ Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
         'n-var-miss.R' 'nabular.R' 'naniar-ggproto.R'
         'naniar-package.R' 'prop-pct-var-case-miss-complete.R'
         'replace-to-na.R' 'replace-with-na.R'
-        'scoped-replace-with-na.R' 'shade.R' 'shadow-recode.R'
-        'shadow-shifters.R' 'shadows.R' 'stat-miss-point.R' 'utils.R'
-        'where-na.R'
+        'scoped-replace-with-na.R' 'set-n-prop-miss.R' 'shade.R'
+        'shadow-recode.R' 'shadow-shifters.R' 'shadows.R'
+        'stat-miss-point.R' 'utils.R' 'where-na.R'
 URL: https://github.com/njtierney/naniar
 BugReports: https://github.com/njtierney/naniar/issues
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Language: en-US
+Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2021-05-14 09:28:56 UTC; njtierney
+Packaged: 2023-02-02 07:42:41 UTC; nick
 Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Di Cook [aut] (<https://orcid.org/0000-0002-3813-7155>),
   Miles McBain [aut] (<https://orcid.org/0000-0003-2865-2548>),
@@ -82,4 +85,4 @@ Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Andrew Heiss [ctb] (<https://orcid.org/0000-0002-3948-3914>)
 Maintainer: Nicholas Tierney <nicholas.tierney@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-05-14 10:20:02 UTC
+Date/Publication: 2023-02-02 09:50:02 UTC

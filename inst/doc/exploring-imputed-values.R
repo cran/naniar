@@ -66,7 +66,12 @@ ggplot(ocean_imp,
 ocean_imp %>%
   group_by(any_missing) %>%
   summarise_at(.vars = vars(air_temp_c),
-               .funs = funs(min, mean, median, max, .args = list(na.rm = TRUE)))
+               .funs = list(
+                 min = ~ min(.x, na.rm = TRUE), 
+                 mean = ~ mean(.x, na.rm = TRUE), 
+                 median = ~ median(.x, na.rm = TRUE), 
+                 max = ~ max(.x, na.rm = TRUE)
+              ))
 
 ## ----imp-add-year-------------------------------------------------------------
 ocean_imp_yr <- oceanbuoys %>%
