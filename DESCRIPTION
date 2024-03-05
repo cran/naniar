@@ -1,7 +1,7 @@
 Package: naniar
 Type: Package
 Title: Data Structures, Summaries, and Visualisations for Missing Data
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(
   person("Nicholas", "Tierney", 
          role = c("aut", "cre"),
@@ -47,15 +47,17 @@ Suggests: knitr, rmarkdown, testthat (>= 3.0.0), rpart, rpart.plot,
 VignetteBuilder: knitr
 Depends: R (>= 3.1.2)
 Imports: dplyr, ggplot2, purrr, tidyr, tibble (>= 2.0.0), norm,
-        magrittr, stats, visdat, rlang, forcats, viridis, glue, UpSetR,
-        cli, vctrs
-Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
-        'data-common-na-numbers.R' 'data-common-na-strings.R'
-        'data-oceanbuoys.R' 'data-pedestrian.R' 'data-riskfactors.R'
-        'legend-draw.R' 'geom-miss-point.R' 'geom2plotly.R'
-        'gg-miss-case-cumsum.R' 'gg-miss-case.R' 'gg-miss-fct.R'
-        'gg-miss-span.R' 'gg-miss-upset.R' 'gg-miss-var-cumsum.R'
-        'gg-miss-var.R' 'gg-miss-which.R' 'helpers.R' 'impute-median.R'
+        magrittr, stats, visdat, rlang (>= 1.1.0), forcats, viridis,
+        glue, UpSetR, cli, vctrs, lifecycle
+Collate: 'add-cols.R' 'add-n-prop-miss.R' 'any-na-complete.R'
+        'cast-shadows.R' 'data-common-na-numbers.R'
+        'data-common-na-strings.R' 'data-oceanbuoys.R'
+        'data-pedestrian.R' 'data-riskfactors.R' 'legend-draw.R'
+        'geom-miss-point.R' 'geom2plotly.R' 'gg-miss-case-cumsum.R'
+        'gg-miss-case.R' 'gg-miss-fct.R' 'gg-miss-span.R'
+        'gg-miss-upset.R' 'gg-miss-var-cumsum.R' 'gg-miss-var.R'
+        'gg-miss-which.R' 'impute-factor.R' 'impute-fixed.R'
+        'impute-median.R' 'impute-mode.R' 'impute-zero.R'
         'impute_below.R' 'impute_mean.R' 'label-miss.R' 'mcar-test.R'
         'miss-complete-x-pct-prop.R' 'miss-prop-pct-summary.R'
         'miss-scan-count.R' 'miss-x-cumsum.R' 'miss-x-run.R'
@@ -63,18 +65,18 @@ Collate: 'add-cols.R' 'add-n-prop-miss.R' 'cast-shadows.R'
         'n-prop-miss-complete-rows.R' 'n-prop-miss-complete.R'
         'n-var-miss.R' 'nabular.R' 'naniar-ggproto.R'
         'naniar-package.R' 'prop-pct-var-case-miss-complete.R'
-        'replace-to-na.R' 'replace-with-na.R'
+        'replace-to-na.R' 'replace-with-na.R' 'replace_na_with.R'
         'scoped-replace-with-na.R' 'set-n-prop-miss.R' 'shade.R'
         'shadow-recode.R' 'shadow-shifters.R' 'shadows.R'
         'stat-miss-point.R' 'utils.R' 'where-na.R'
-URL: https://github.com/njtierney/naniar
+URL: https://github.com/njtierney/naniar, http://naniar.njtierney.com/
 BugReports: https://github.com/njtierney/naniar/issues
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Language: en-US
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-02-02 07:42:41 UTC; nick
+Packaged: 2024-03-04 23:29:14 UTC; nick
 Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Di Cook [aut] (<https://orcid.org/0000-0002-3813-7155>),
   Miles McBain [aut] (<https://orcid.org/0000-0003-2865-2548>),
@@ -85,4 +87,4 @@ Author: Nicholas Tierney [aut, cre] (<https://orcid.org/0000-0003-1460-8722>),
   Andrew Heiss [ctb] (<https://orcid.org/0000-0002-3948-3914>)
 Maintainer: Nicholas Tierney <nicholas.tierney@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-02-02 09:50:02 UTC
+Date/Publication: 2024-03-05 10:10:02 UTC

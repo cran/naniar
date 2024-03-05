@@ -20,9 +20,10 @@
 #'
 add_shadow <- function(data, ...){
 
-  if (missing(...)) {
-    stop("No variables specified - please include variables to be selected")
-  }
+  test_if_dots_missing(
+    dots_empty = missing(...),
+    msg = "{.fun add_shadow} requires variables to be selected"
+    )
   shadow_df <- dplyr::select(data, ...) %>% as_shadow()
 
   data <- tibble::as_tibble(data)
@@ -56,7 +57,7 @@ add_shadow_shift <- function(data, ..., suffix = "shift"){
   # if no variables are selected use all of the variables
   if (missing(...)) {
 
-    shadow_shifted_df <- purrr::map_dfc(data, shadow_shift)
+    shadow_shifted_df <- purrr::map_dfc(data, impute_below)
 
     # change names
     names(shadow_shifted_df) <- paste0(names(shadow_shifted_df), "_", suffix)
@@ -72,7 +73,7 @@ add_shadow_shift <- function(data, ..., suffix = "shift"){
 
   # shadow shift all (using purrr:map_df)
   # would be good to have a way of indicating that no shift was taken at all
-  shadow_shifted_df <- purrr::map_dfc(shadow_shifted_vars, shadow_shift)
+  shadow_shifted_df <- purrr::map_dfc(shadow_shifted_vars, impute_below)
 
   # change names
   names(shadow_shifted_df) <- paste0(names(shadow_shifted_df),"_",suffix)
@@ -144,7 +145,7 @@ add_any_miss <- function(data, ...,
     names(stub_data_label) <- paste0(label,"_all")
 
     return(
-    dplyr::bind_cols(data, stub_data_label) %>% tibble::as_tibble()
+      dplyr::bind_cols(data, stub_data_label) %>% tibble::as_tibble()
     )
 
   }
@@ -286,9 +287,9 @@ label_shadow <- function(data,
   }
 
   temp <- any_row_shade(data)
-    dplyr::if_else(condition = temp == TRUE, # TRUE means missing
-                   true = missing,
-                   false = complete)
+  dplyr::if_else(condition = temp == TRUE, # TRUE means missing
+                 true = missing,
+                 false = complete)
 
 }
 
@@ -330,8 +331,8 @@ add_label_shadow <- function(data,
   updated_data <- dplyr::mutate(data,
                                 any_missing = label_shadow(data,
                                                            ...,
-                                             missing = missing,
-                                             complete = complete))
+                                                           missing = missing,
+                                                           complete = complete))
 
 
   return(updated_data)
